@@ -1,6 +1,15 @@
 from faker import Faker
-fake = Faker ("pt_BR")
+import random
 
-print('Nome:', fake.name())
-print('Email:', fake.email())
-print('Cidade:', fake.city())
+
+fake = Faker('pt_BR')  
+
+persona = {
+    "nome": fake.name(),
+    "idade": random.randint(18, 70),  
+    "cidade": fake.city()
+}
+
+
+print("Persona gerada:")
+print(persona)
