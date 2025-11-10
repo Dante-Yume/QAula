@@ -10,13 +10,13 @@ import time
 
 @given("que o navegador Microsoft Edge está aberto")
 def step_open_browser(context):
-    options = options()
+    options = Options()
 
     options.add_argument('--start-maximized')
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     context.driver = Edge(options=options)
-    context.drive.get("https:/www.google.com")
+    context.driver.get("https:/www.google.com")
     time.sleep(3)
 
 
@@ -24,6 +24,7 @@ def step_open_browser(context):
 
 @when('eu pesquisar por "Instituto Joga Junto" no Google')
 def step_serch_google(context):
+    campo = context.driver.find_element(By.NAME, "q")
 
     campo.send_keys("Instituto Joga Junto")
     campo.send_keys(Keys.RETURN)
@@ -32,9 +33,9 @@ def step_serch_google(context):
 
 #step 3
 
-@then("devo ver o site do Insttuto aberto com sucesso")
-def step_verify_site(context) 
-    resultados - context.driver.find_elements(by.CSS_ selector, "h3")
+@then("devo ver o site do Instituto aberto com sucesso")
+def step_verify_site(context):
+    resultados = context.driver.find_elements(By.CSS_SELECTOR, "h3")
 
     if resultados:
         resultados[0].click()
