@@ -1,22 +1,47 @@
-from selenium import webdriver
+from behave import given, when, then
+from selenium.webdriver import Edge  
+from selenium.webdriver.edge.options import Options 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from webdrive_manager.microsoft import EdgeCromiumDriveMenager
-from selenium.webdriver.edge.service import EdgeService
-import time
-from behave import given, when, then
+import time  
+
 
 # step 1 
 
-@given("que o navegador esteja na pagina inicial")
+@given("que o navegador Microsoft Edge está aberto")
 def step_open_browser(context):
+    options = options()
 
-    options= webdriver.EdgeOptions()
     options.add_argument('--start-maximized')
-
-    context.driver = webdriver.Edge(
-        service=EdgeService(EdgeChromiumDriverManager().install()),
-        options=options
-    )
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    context.driver = Edge(options=options)
     context.drive.get("https:/www.google.com")
     time.sleep(3)
+
+
+#step 2
+
+@when('eu pesquisar por "Instituto Joga Junto" no Google')
+def step_serch_google(context):
+
+    campo.send_keys("Instituto Joga Junto")
+    campo.send_keys(Keys.RETURN)
+    time.sleep(4)
+
+
+#step 3
+
+@then("devo ver o site do Insttuto aberto com sucesso")
+def step_verify_site(context) 
+    resultados - context.driver.find_elements(by.CSS_ selector, "h3")
+
+    if resultados:
+        resultados[0].click()
+        time.sleep(5)
+        assert "jogajunto" in context.driver.current_url.lower()
+        print("🌐 Site do Instituto Joga Junto aberto com sucesso!")
+
+    else:
+         raise AssertionError("❌ Nenhum resultado encontrado.")
+    context.driver.quit()
